@@ -1,7 +1,7 @@
 from vu_test_power_profile import Person
 
 if __name__ == "__main__":
-    froome = Person(225, 13000)
+    froome = Person(375, 20250)
     current_p = 150
     done = True
     while done:
