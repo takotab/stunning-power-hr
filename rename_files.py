@@ -3,7 +3,6 @@ import os
 import glob
 from fitparse import FitFile
 
-
 import pandas as pd
 
 # from fit import FitFile
