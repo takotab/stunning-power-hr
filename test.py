@@ -1,3 +1,4 @@
+import os
 import numpy as np
 
 from vu_test_power_profile import Person
@@ -10,6 +11,7 @@ from utils import (
     get_file,
     set_info,
 )
+from make_pdf import make_pdf
 
 
 def test_utils_get_json():
@@ -30,6 +32,12 @@ def test_set_info():
     set_info(file, info)
     cur_info = get_info(file)
     assert cur_info["test"] == new_info
+
+
+def test_pdf():
+    file = next(get_file(name="Eric", unit_test=True))
+    make_pdf(file)
+    assert os.path.isfile(file.replace("fit", "pdf"))
 
 
 if __name__ == "__main__":
