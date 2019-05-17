@@ -1,0 +1,3 @@
+gewicht(kg):80
+start(sec):244
+end(sec):800
