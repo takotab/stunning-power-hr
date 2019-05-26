@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -70,40 +71,49 @@ def plot_file(file):
     ax.set_xlabel("Tijd (sec)")
 
     plt.show()
-    fig.savefig(file.replace(".fit", "_plot.png").replace(".", ""), dpi=fig.dpi)
+    fig.savefig(file.replace(".fit", "_plot.png"), dpi=fig.dpi)
 
     info["total work (J)"] = str(df.loc[start:end, "power"].array.sum())
-    info["Max hartslag"] = (
-        df.loc[start : end + 30, "heart_rate"].rolling(30).mean().max()
+    info["Max hartslag (bpm)"] = np.round(
+        (df.loc[start : end + 30, "heart_rate"].rolling(30).mean().max()), 2
     )
-    info["Max power (30 sec)"] = (
-        df.loc[start : end + 30, "power"].rolling(30).mean().max()
+    info["Max power (W)"] = np.round(
+        df.loc[start : end + 30, "power"].rolling(30).mean().max(), 2
     )
     if not info["gewicht(kg)"] == "Onbekend":
-        total[utils.get_name(file)] = np.round(
-            info["Max power (30 sec)"] / float(info["gewicht(kg)"]), 2
-        )
+        total = json.load(open(os.path.join("data", "totaal", "overall.json"), "r"))
+        name = utils.get_name(file)
+        value = np.round(info["Max power (W)"] / float(info["gewicht(kg)"]), 2)
+        info["Max power per kg (W/kg)"] = value
+        if utils.get_name(file) in total:
+            if type(total[name]) == str:
+                total[name] = [total[name], value]
+            elif type(total[name]) == list:
+                total[name].append(value)
+        else:
+            total[name] = [value]
+        json.dump(total, open(os.path.join("data", "totaal", "overall.json"), "w"))
 
     info["hr-zones"] = {}
     info["hr-zones"]["Herstel training (H)"] = [
-        info["Max hartslag"] * 0.50,
-        info["Max hartslag"] * 0.65,
+        info["Max hartslag (bpm)"] * 0.50,
+        info["Max hartslag (bpm)"] * 0.65,
     ]
     info["hr-zones"]["Extensieve duurtraining (D1)"] = [
-        info["Max hartslag"] * 0.65,
-        info["Max hartslag"] * 0.75,
+        info["Max hartslag (bpm)"] * 0.65,
+        info["Max hartslag (bpm)"] * 0.75,
     ]
     info["hr-zones"]["Intensieve duurtraining (D2)"] = [
-        info["Max hartslag"] * 0.75,
-        info["Max hartslag"] * 0.85,
+        info["Max hartslag (bpm)"] * 0.75,
+        info["Max hartslag (bpm)"] * 0.85,
     ]
     info["hr-zones"]["Extensieve herhalingen (D3)"] = [
-        info["Max hartslag"] * 0.85,
-        info["Max hartslag"] * 0.95,
+        info["Max hartslag (bpm)"] * 0.85,
+        info["Max hartslag (bpm)"] * 0.95,
     ]
     info["hr-zones"]["Intensieve herh/interval (HIIT)"] = [
-        info["Max hartslag"] * 0.95,
-        info["Max hartslag"] * 1,
+        info["Max hartslag (bpm)"] * 0.95,
+        info["Max hartslag (bpm)"] * 1,
     ]
 
     for key, item in info["hr-zones"].items():

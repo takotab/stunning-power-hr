@@ -1,16 +1,16 @@
 import utils
 import os
+import json
 
 
 def add_weight(file):
-    filename = os.path.join(*file.split(os.sep)[:-1]) + "/info.txt"
-    if os.path.isfile(filename):
-        return
-    kg = input("wat is het gewicht van " + file + " ? ")
+    info = utils.get_info(file)
+    kg = input("wat is het gewicht van " + utils.get_name(file) + " ? ")
+
     if str(kg) == "0":
         kg = "Onbekend"
-    with open(filename, "w") as f:
-        f.write("gewicht(kg):" + kg)
+    info["gewicht(kg)"] = kg
+    utils.set_info(file, info)
 
 
 if __name__ == "__main__":

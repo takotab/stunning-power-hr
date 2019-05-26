@@ -31,10 +31,14 @@ def get_date(file):
 def get_json(file):
     for file in get_file(name=get_name(file), date=get_date(file), filetype=".json"):
         return file
+    return None
 
 
 def get_info(file):
-    return json.load(open(get_json(file), "r"))
+    info = get_json(file)
+    if info is None:
+        FileExistsError(file + " .json")
+    return json.load(open(info, "r"))
 
 
 def set_info(file: str, info: dict):

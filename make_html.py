@@ -35,7 +35,11 @@ def make_html(file):
     for key, item in utils.get_info(file).items():
         if key in ["Max hartslag (bpm)", "Max power (W)", "Max power per kg (W/kg)"]:
             t.rows.append([html.TableCell(key), html.TableCell(str(item))])
-
+    if utils.get_info(file)['sex'] == 'm':
+        t.rows.append([html.TableCell("Max power per kg (W/kg) geschat Chris Froome"), html.TableCell(str(8.3))])
+    if utils.get_info(file)['sex'] == 'w':
+        t.rows.append([html.TableCell("Max power per kg (W/kg) geschat Anna van der Breggen"), html.TableCell(str(7.2))])
+        
     result += (
         str(t)
         + newline

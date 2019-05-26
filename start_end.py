@@ -15,7 +15,7 @@ def fill_na(result, i):
     return result
 
 
-def plot_file(file):
+def get_start_end(file):
     print(utils.get_name(file))
     result = {}
     fitfile = FitFile(file)
@@ -39,16 +39,14 @@ def plot_file(file):
         end = int(input("end? "))
         ax = df.loc[start:end, ["cadence", "power", "heart_rate"]].plot()
         plt.show()
-        good = input("good? ") == "y"
-
-    filename = os.path.join(*file.split(os.sep)[:-1]) + "/info.txt"
-    with open(filename, "a") as f:
-        f.write("\n" + "start(sec):" + str(start) + "\n")
-        f.write("end(sec):" + str(end) + "\n")
-
+        good = input("good? (y/n) ") == "y"
+    info = utils.get_info(file)
+    info["start(sec)"] = str(start)
+    info["end(sec)"] = str(end)
+    utils.set_info(file, info)
     df.to_csv(file.replace(".fit", ".csv"))
     sns.lmplot(x="power", y="heart_rate", data=df)
 
 
 if __name__ == "__main__":
-    utils.apply_to_fitfile(plot_file,all=True)
+    utils.apply_to_fitfile(plot_file, all=True)

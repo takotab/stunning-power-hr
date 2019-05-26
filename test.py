@@ -41,7 +41,7 @@ def test_pdf():
 
 
 if __name__ == "__main__":
-    froome = Person(375, 20250)
+    froome = Person(275, 19250)
     current_p = 150
     done = True
     while done:
