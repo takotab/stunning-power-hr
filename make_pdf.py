@@ -12,4 +12,4 @@ def make_pdf(file):
 
 
 if __name__ == "__main__":
-    utils.apply_to_fitfile(make_pdf, all=True)
+    utils.apply_to_fitfile(make_pdf, name='Dennis schaap')

@@ -49,4 +49,4 @@ def get_start_end(file):
 
 
 if __name__ == "__main__":
-    utils.apply_to_fitfile(plot_file, all=True)
+    utils.apply_to_fitfile(plot_file,date='2019-07-06', all=True)

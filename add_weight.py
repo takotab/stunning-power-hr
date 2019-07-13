@@ -14,5 +14,5 @@ def add_weight(file):
 
 
 if __name__ == "__main__":
-    utils.apply_to_fitfile(add_weight, all=True)
+    utils.apply_to_fitfile(add_weight, date="2019-07-06", all=True)
 
