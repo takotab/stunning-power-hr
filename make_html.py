@@ -37,6 +37,7 @@ def make_html(file):
             t.rows.append([html.TableCell(key), html.TableCell(str(item))])
     if utils.get_info(file)['sex'] == 'm':
         t.rows.append([html.TableCell("Max power per kg (W/kg) geschat Chris Froome"), html.TableCell(str(8.3))])
+        t.rows.append([html.TableCell("Max power per kg (W/kg) geschat Thibaut Pinot op 18 jarige leeftijd"), html.TableCell(str(7.25))])
     if utils.get_info(file)['sex'] == 'w':
         t.rows.append([html.TableCell("Max power per kg (W/kg) geschat Anna van der Breggen"), html.TableCell(str(7.2))])
         
