@@ -80,8 +80,9 @@ def plot_file(file):
     info["Max power (W)"] = np.round(
         df.loc[start : end + 30, "power"].rolling(30).mean().max(), 2
     )
-    if not info["gewicht(kg)"] == "Onbekend":
-        total = json.load(open(os.path.join("data", "totaal", "overall.json"), "r"))
+    f_overall = os.path.join("data", "totaal", "overall.json")
+    if not info["gewicht(kg)"] == "Onbekend" and os.path.isfile(f_overall):
+        total = json.load(open(f_overall, "r"))
         name = utils.get_name(file)
         value = np.round(info["Max power (W)"] / float(info["gewicht(kg)"]), 2)
         info["Max power per kg (W/kg)"] = value
@@ -92,7 +93,7 @@ def plot_file(file):
                 total[name].append(value)
         else:
             total[name] = [value]
-        json.dump(total, open(os.path.join("data", "totaal", "overall.json"), "w"))
+        json.dump(total, open(f_overall, "w"))
 
     info["hr-zones"] = {}
     info["hr-zones"]["Herstel training (H)"] = [
