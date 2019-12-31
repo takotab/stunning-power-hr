@@ -81,11 +81,12 @@ def plot_file(file):
         df.loc[start : end + 30, "power"].rolling(30).mean().max(), 2
     )
     f_overall = os.path.join("data", "totaal", "overall.json")
+
+    value = np.round(info["Max power (W)"] / float(info["gewicht(kg)"]), 2)
+    info["Max power per kg (W/kg)"] = value
     if not info["gewicht(kg)"] == "Onbekend" and os.path.isfile(f_overall):
         total = json.load(open(f_overall, "r"))
         name = utils.get_name(file)
-        value = np.round(info["Max power (W)"] / float(info["gewicht(kg)"]), 2)
-        info["Max power per kg (W/kg)"] = value
         if utils.get_name(file) in total:
             if type(total[name]) == str:
                 total[name] = [total[name], value]
