@@ -41,8 +41,8 @@ def test_pdf():
 
 
 if __name__ == "__main__":
-    froome = Person(275, 19250)
-    current_p = 150
+    froome = Person(300, 25200)
+    current_p = 100
     done = True
     while done:
         done = froome.cycle(current_p, 60)
